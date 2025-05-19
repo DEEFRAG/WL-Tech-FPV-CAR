@@ -30,7 +30,7 @@ pip3 install pygame
 
 # xbox_gamepad_proxy_mediamtx_deadzone_browser.py:
 
-If you do not want to use VLC but instead prefer to use a Webbrowser you can start this script.
+If you do not want to use VLC and/or pygame but instead prefer to use a Webbrowser you can start this script.
 
 It depends on mediamtx for converting the rtsp Videostream to WebRTC which you can get here: https://github.com/bluenviron/mediamtx/releases
 
