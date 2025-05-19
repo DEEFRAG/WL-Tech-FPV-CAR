@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Joystick + WebRTC Stream</title>
+</head>
+<body>
+  <iframe
+    src="http://localhost:8889/proxied"
+    width="1280"
+    height="720"
+    allow="camera; microphone; fullscreen"
+    style="border:none">
+  </iframe>
+
+  <script>
+    const socket = new WebSocket("ws://localhost:8765");
+
+    function sendJoystick(x, y) {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ x, y }));
+      }
+    }
+
+    function loop() {
+      const gamepad = navigator.getGamepads()[0];
+      if (gamepad) {
+        const x = gamepad.axes[0];
+        const y = gamepad.axes[1];
+        sendJoystick(x, y);
+      }
+      requestAnimationFrame(loop);
+    }
+
+    function waitForGamepad(timeout = 5000) {
+      let waited = 0;
+      const interval = 100;
+
+      const check = setInterval(() => {
+        const gp = navigator.getGamepads()[0];
+        waited += interval;
+
+        if (gp) {
+          console.log("Gamepad erkannt.");
+          clearInterval(check);
+          loop();
+        } else if (waited >= timeout) {
+          console.warn("Kein Gamepad erkannt. Seite wird neu geladen...");
+          clearInterval(check);
+          location.reload();
+        }
+      }, interval);
+    }
+
+    window.addEventListener("load", () => {
+      waitForGamepad();
+    });
+
+    window.addEventListener("gamepadconnected", (e) => {
+      console.log("Gamepad verbunden:", e.gamepad);
+      loop();  // Sicherstellen, dass der Loop startet
+    });
+  </script>
+</body>
+</html>
