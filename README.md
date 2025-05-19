@@ -1,9 +1,9 @@
 # WL-Tech-FPV-CAR
 Replacement for the WL Tech FPV CAR App for the WLtoys 6401 Mini RC Cars 1:64
 
-xbox_gamepad_vlc_deadzone.py
+# xbox_gamepad_vlc_deadzone.py:
 
-Python file for using the left Analogstick of a Xbox Controller (One/Series) as an input to drive a WLtoys 6401 Mini RC Car.
+Python file for using the left Analogstick of a Xbox Controller (One/Series) as an input to drive a WLtoys 6401 Mini RC Car that is connected via WiFi.
 
 It uses a 6% Deadzone of the Stick to avoid constant Motor noise when the Stick is not exactly centered.
 
@@ -12,11 +12,11 @@ It starts the Videostream of the Camera in VLC for FPV Driving. Only works if VL
 
 To start type this into the terminal:
 
-python3 xbox_gamepad_vlc_deadzone.py
+python xbox_gamepad_vlc_deadzone.py
 
 if this fails try this instead:
 
-python xbox_gamepad_vlc_deadzone.py
+python3 xbox_gamepad_vlc_deadzone.py
 
 
 you may need to install the pygame Library first. To do this type this into the termanial:
@@ -28,7 +28,36 @@ if this fails try this instead:
 pip3 install pygame
 
 
-Some more Informations:
+# xbox_gamepad_proxy_mediamtx_deadzone_browser.py:
+
+If you do not want to use VLC but instead prefer to use a Webbrowser you can start this script.
+
+It depends on mediamtx for converting the rtsp Videostream to WebRTC which you can get here: https://github.com/bluenviron/mediamtx/releases
+
+Just download the mediamtx file and put it in the same directory as the python script.
+
+
+To start type this into the terminal:
+
+python xbox_gamepad_proxy_mediamtx_deadzone_browser.py
+
+if this fails try this instead:
+
+python3 xbox_gamepad_proxy_mediamtx_deadzone_browser.py
+
+It will start mediamtx automaticly and opens the index.html file in your WebBrowser.
+
+
+you may need to install the websockets Library first. To do this type this into the termanial:
+
+pip install websockets
+
+if this fails try this instead:
+
+pip3 install websockets
+
+
+## Some more Informations:
 
 I got the WLtoys 6401 Mini RC Car from Aliexpress: https://www.aliexpress.com/item/1005008669909371.html
 
