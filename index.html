@@ -41,11 +41,11 @@
         waited += interval;
 
         if (gp) {
-          console.log("Gamepad erkannt.");
+          console.log("Gamepad detected.");
           clearInterval(check);
           loop();
         } else if (waited >= timeout) {
-          console.warn("Kein Gamepad erkannt. Seite wird neu geladen...");
+          console.warn("No Gamepad detected. Reloading...");
           clearInterval(check);
           location.reload();
         }
@@ -57,8 +57,8 @@
     });
 
     window.addEventListener("gamepadconnected", (e) => {
-      console.log("Gamepad verbunden:", e.gamepad);
-      loop();  // Sicherstellen, dass der Loop startet
+      console.log("Gamepad connected:", e.gamepad);
+      loop();
     });
   </script>
 </body>
