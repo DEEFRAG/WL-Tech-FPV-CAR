@@ -9,7 +9,7 @@ import os
 UDP_IP = "172.16.11.1"
 UDP_PORT = 23458
 SEND_INTERVAL = 0.1  # 100 ms
-DEADZONE_BYTE_THRESHOLD = 10  # Mindestabweichung von 0x80 (128)
+DEADZONE_BYTE_THRESHOLD = 10  # minimal distance from 0x80 (128)
 
 BASE_PACKET = bytearray.fromhex("ca 47 d5 00 00 00 00 00 66 80 80 80 00 00 80 99")
 
@@ -41,7 +41,6 @@ async def udp_loop():
         byte_9 = map_axis_to_byte(x)
         byte_10 = map_axis_to_byte(-y)
 
-        # Wenn außerhalb der Deadzone → sende gemappte Werte, sonst neutral (0x80)
         if not exceeds_deadzone(byte_9):
             byte_9 = 0x80
         if not exceeds_deadzone(byte_10):
@@ -56,13 +55,13 @@ async def udp_loop():
         await asyncio.sleep(SEND_INTERVAL)
 
 def start_mediamtx():
-    print("Starte mediamtx (RTSP → WebRTC)...")
+    print("Starting mediamtx (RTSP -> WebRTC)...")
     return subprocess.Popen(["./mediamtx"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 def open_html():
     file_path = os.path.abspath("index.html")
     url = f"file://{file_path}"
-    print(f"Öffne HTML-Datei im Browser: {url}")
+    print(f"open HTML-File in Browser: {url}")
     webbrowser.open(url)
 
 async def main():
@@ -71,14 +70,14 @@ async def main():
 
     open_html()
 
-    print("Starte WebSocket-zu-UDP-Proxy auf Port 8765...")
+    print("Start WebSocket-to-UDP-Proxy on Port 8765...")
     try:
         async with websockets.serve(handle_connection, "0.0.0.0", 8765):
             await udp_loop()
     finally:
         if mediamtx_proc:
             mediamtx_proc.terminate()
-        print("Beendet.")
+        print("Closed.")
 
 if __name__ == "__main__":
     asyncio.run(main())
